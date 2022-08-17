@@ -1,0 +1,67 @@
+﻿@model IEnumerable<TMinggu2.Models.Enrollment>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1 class="mt-4">Daftar Enrollment</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+    <li class="breadcrumb-item active">Daftar Enrollment</li>
+</ol>
+
+<div class="card mb-4">
+    <div class="card-body">
+    <div class="col-md-6">
+        <div>
+                @if (ViewData["pesan"] != null)
+                {
+                    @Html.Raw(ViewData["pesan"])
+                }
+        </div>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.EnrollmentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.CourseID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentID)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Grade)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.EnrollmentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.CourseID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Grade)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
