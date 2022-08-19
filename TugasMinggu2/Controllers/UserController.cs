@@ -47,5 +47,20 @@ namespace TugasMinggu2.Controllers
                 return BadRequest($"Error: {ex.Message}");
             }
         }
+
+        [AllowAnonymous]
+        [HttpPost("RegisTest")]
+        public async Task<ActionResult<CreateUserDTO>> Registration1(CreateUserDTO userDto)
+        {
+            try
+            {
+                await _user.Registration1(userDto);
+                return Ok($"Registrasi user {userDto.Username} berhasil");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

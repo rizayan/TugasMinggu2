@@ -22,8 +22,34 @@ namespace TMinggu2.Controllers
         {
             try
             {
-                var result =  _user.Registration(user);
-                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student </div>";
+                var result = await _user.Registration1(user);
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student {result.Username}</div>";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                ViewData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Error: {ex.Message}</div>";
+                return View();
+            }
+
+        }
+
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Login(CreateUser user)
+        {
+            try
+            {
+                var result = await _user.Login(user);
+                if (result == null) {
+                    return RedirectToAction("Login");
+                }
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student {result.Username}</div>";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)

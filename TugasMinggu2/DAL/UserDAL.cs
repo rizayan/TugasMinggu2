@@ -79,5 +79,37 @@ namespace TugasMinggu2.DAL
                 throw new Exception($"Error: {ex.Message}");
             }
         }
+
+        public async Task<CreateUserDTO> Registration1(CreateUserDTO user)
+        {
+            //throw new NotImplementedException();
+
+            try
+            {
+                var newUser = new IdentityUser
+                {
+                    UserName = user.Username,
+                    Email = user.Username
+                };
+                var result = await _userManager.CreateAsync(newUser, user.Password);
+                if (!result.Succeeded)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    var errors = result.Errors;
+                    foreach (var error in errors)
+                    {
+                        sb.Append($"{error.Code} - {error.Description} \n");
+                    }
+                    throw new Exception($"Error: {sb.ToString()}");
+                   
+                    
+                }
+                return user;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error: {ex.Message}");
+            }
+        }
     }
 }

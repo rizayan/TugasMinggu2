@@ -80,14 +80,17 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-//app.UseHttpsRedirection();
+app.UseHttpsRedirection();
 
-app.UseCors(x => x
+app.UseCors(MyAllowSpecificOrigins);
+
+/*app.UseCors(x => x
         .AllowAnyOrigin()
         .AllowAnyMethod()
-        .AllowAnyHeader());
+        .AllowAnyHeader());*/
+
 app.UseAuthentication();
-//app.UseAuthorization();
+app.UseAuthorization();
 
 app.MapControllers();
 

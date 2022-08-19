@@ -28,7 +28,7 @@
             <th>
                 @Html.DisplayNameFor(model => model.EnrollmentDate)
             </th>
-            <th></th>
+            <th>Course Yang Diambil</th>
             <th></th>
         </tr>
     </thead>
@@ -51,9 +51,8 @@
                 <td>
                 @foreach (var quote in item.Enrollments)
                     {
-                        <p>@quote.Id</p>
-                        <p>@quote.Title</p>
-                        <p>@quote.Credits</p>
+                        <p>@quote.Id | @quote.Title | @quote.Credits</p>
+                        
                     }
                 </td>
         
