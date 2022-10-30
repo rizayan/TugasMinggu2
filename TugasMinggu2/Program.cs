@@ -26,6 +26,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddScoped<IStudent, StudentDAL>();
 builder.Services.AddScoped<ICourse, CourseDAL>();
 builder.Services.AddScoped<IEnrollment, EnrollmentDAL>();
+builder.Services.AddScoped<IDPribadi, DPribadiDAL>();
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
 {

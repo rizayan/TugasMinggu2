@@ -3,11 +3,19 @@ using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddSession(options =>
+{
+    options.Cookie.Name = "mysession.frontend";
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
+    options.Cookie.IsEssential = true;
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
 //Inject Services
 builder.Services.AddScoped<IStudent, StudentServices>();
+builder.Services.AddScoped<IDPribadi, DPribadiServices>();
 builder.Services.AddScoped<ICourse, CourseServices>();
 builder.Services.AddScoped<IEnrollment, EnrollmentServices>();
 builder.Services.AddScoped<IUser, UserServices>();
@@ -31,6 +39,7 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+app.UseSession();
 
 app.MapControllerRoute(
     name: "default",

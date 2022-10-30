@@ -2,6 +2,8 @@
     ViewData["Title"] = "Home Page";
 }
 
+ 
+
 <h1 class="mt-4">Welcome To System</h1>
                         <ol class="breadcrumb mb-4">
                             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
@@ -12,5 +14,15 @@
                                 <p class="mb-0">
                                     Welcome to Student System
                                 </p>
+
+                                <div>
+                @if (ViewData["pesan"] != null)
+                {
+                    @Html.Raw(ViewData["pesan"])
+                }
+            </div>
                             </div>
                         </div>
+
+
+ 

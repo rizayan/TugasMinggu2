@@ -23,8 +23,8 @@ namespace TMinggu2.Controllers
             try
             {
                 var result = await _user.Registration1(user);
-                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student {result.Username}</div>";
-                return RedirectToAction("Index");
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data baru {result.Username}</div>";
+                return RedirectToAction("Index", "Home");
             }
             catch (Exception ex)
             {
@@ -40,24 +40,26 @@ namespace TMinggu2.Controllers
             return View();
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> Login(CreateUser user)
         {
             try
             {
                 var result = await _user.Login(user);
-                if (result == null) {
-                    return RedirectToAction("Login");
+                if (string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
+                {
+                    HttpContext.Session.SetString("token", $"Bearer {result.Token}");
                 }
-                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student {result.Username}</div>";
-                return RedirectToAction("Index");
+                //TempData["pesan"] = $"<div class='alert alert-primary' role='alert'>Berhasil Login dengan Token : {result.Token} <button type='button' class='btn-close' data-bs-dismiss='alert'></button></ div > ";
+                return RedirectToAction("Index", "Home");
+                    //View();
+
             }
             catch (Exception ex)
             {
                 ViewData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Error: {ex.Message}</div>";
                 return View();
             }
-
         }
     }
 }

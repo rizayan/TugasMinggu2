@@ -43,5 +43,48 @@ namespace TMinggu2.Controllers
             }
 
         }
+
+        public async Task<IActionResult> Update(int id)
+        {
+            var model = await _enrollment.GetById(id);
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Update(Enrollment samurai)
+        {
+            try
+            {
+                var result = await _enrollment.Update(samurai);
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil mengupdate data enrollment {result.EnrollmentID}</div>";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var model = await _enrollment.GetById(id);
+            return View(model);
+        }
+
+        [ActionName("Delete")]
+        [HttpPost]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            try
+            {
+                await _enrollment.Delete(id);
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil mendelete data student id: {id}</div>";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return View();
+            }
+        }
     }
 }

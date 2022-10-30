@@ -11,9 +11,20 @@ namespace TugasMinggu2.DAL
         {
             _context = context;
         }
-        public Task Delete(int id)
+        public async Task Delete(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var deleteSword = await _context.Enrollments.FirstOrDefaultAsync(s => s.EnrollmentID == id);
+                if (deleteSword == null)
+                    throw new Exception($"Data student dengan id {id} tidak ditemukan");
+                _context.Enrollments.Remove(deleteSword);
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"{ex.Message}");
+            }
         }
 
         public async Task<IEnumerable<Enrollment>> GetAll()
@@ -22,9 +33,11 @@ namespace TugasMinggu2.DAL
             return results;
         }
 
-        public Task<Enrollment> GetById(int id)
+        public async Task<Enrollment> GetById(int id)
         {
-            throw new NotImplementedException();
+            var result = await _context.Enrollments.FirstOrDefaultAsync(s => s.EnrollmentID == id);
+            if (result == null) throw new Exception($"Data course dengan id {id} tidak ditemukan");
+            return result;
         }
 
         public async Task<Enrollment> Insert(Enrollment obj)

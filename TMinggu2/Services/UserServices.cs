@@ -39,22 +39,26 @@ namespace TMinggu2.Services
 
         public async Task<Auth> Login(CreateUser user)
         {
-            Auth samurai = new Auth();
-            CreateUser cuser = new CreateUser();
+            Auth authentication = new Auth();
+            CreateUser newUser = new CreateUser();
             using (var httpClient = new HttpClient())
             {
-                StringContent content =
-                    new StringContent(JsonConvert.SerializeObject(cuser), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json");
                 using (var response = await httpClient.PostAsync("https://localhost:7172/api/User/Login", content))
                 {
-                    if (response.StatusCode == System.Net.HttpStatusCode.Created)
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
-                        samurai = JsonConvert.DeserializeObject<Auth>(apiResponse);
+                        authentication = JsonConvert.DeserializeObject<Auth>(apiResponse);
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                    {
+                        string apiResponse = await response.Content.ReadAsStringAsync();
+                        throw new Exception($"Error : {apiResponse}");
                     }
                 }
             }
-            return samurai;
+            return authentication;
         }
 
         public async Task Registration(CreateUser user)

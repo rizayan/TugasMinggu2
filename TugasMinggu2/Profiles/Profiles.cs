@@ -8,6 +8,9 @@ namespace TugasMinggu2.Profiles
     {
         public Profiles()
         {
+            CreateMap<DPribadi, DPribadiCreateDTO>();
+            CreateMap<DPribadiCreateDTO, DPribadi>();
+
             CreateMap<Student, StudentDTO>();
             CreateMap<StudentDTO, Student>();
             CreateMap<StudentCreateDTO, Student>();

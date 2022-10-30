@@ -4,43 +4,43 @@ using TMinggu2.Services;
 
 namespace TMinggu2.Controllers
 {
-    public class CourseController : Controller
+    public class DPribadiController : Controller
     {
-        private readonly ICourse _course;
+        private readonly IDPribadi _dpribadi;
 
-        public CourseController(ICourse course)
+        public DPribadiController(IDPribadi dpribadi)
         {
-            _course = course;
+            _dpribadi = dpribadi;
         }
-        public async Task<IActionResult> Index(string? name)
+        public async Task<IActionResult> Index(string? name, int? nik)
         {
+            /* var results = await _student.GetAll();
+             string strResult = string.Empty;
+             foreach(var result in results)
+             {
+                 strResult += result.FirstMidName + "\n";
+             }
+             return Content(strResult);*/
             ViewData["pesan"] = TempData["pesan"] ?? TempData["pesan"];
-            string myToken = string.Empty;
-            if (!string.IsNullOrEmpty(HttpContext.Session.GetString("token")))
-            {
-                myToken = HttpContext.Session.GetString("token");
-            }
-            IEnumerable<Course> model;
+            IEnumerable<DPribadi> model;
+
             if (name == null)
             {
-                model = await _course.GetAll(myToken);
+                model = await _dpribadi.GetAll();
+
+
             }
+           
             else
             {
-                model = await _course.GetByName(name);
+                model = await _dpribadi.GetByName(name);
             }
-            return View(model);
-        }
-
-        public async Task<IActionResult> WithStudent()
-        {
-            var model = await _course.GetCourseWithStudent();
             return View(model);
         }
 
         public async Task<IActionResult> Details(int id)
         {
-            var model = await _course.GetById(id);
+            var model = await _dpribadi.GetById(id);
             return View(model);
         }
 
@@ -50,12 +50,12 @@ namespace TMinggu2.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Course samurai)
+        public async Task<IActionResult> Create(DPribadi samurai)
         {
             try
             {
-                var result = await _course.Insert(samurai);
-                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student {result.Title}</div>";
+                var result = await _dpribadi.Insert(samurai);
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil menambahkan data student {result.NamaLengkap}</div>";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -68,17 +68,17 @@ namespace TMinggu2.Controllers
 
         public async Task<IActionResult> Update(int id)
         {
-            var model = await _course.GetById(id);
+            var model = await _dpribadi.GetById(id);
             return View(model);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Update(Course samurai)
+        public async Task<IActionResult> Update(DPribadi samurai)
         {
             try
             {
-                var result = await _course.Update(samurai);
-                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil mengupdate data samurai {result.Title}</div>";
+                var result = await _dpribadi.Update(samurai);
+                TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil mengupdate data samurai {result.NamaLengkap}</div>";
                 return RedirectToAction("Index");
             }
             catch (Exception ex)
@@ -89,7 +89,7 @@ namespace TMinggu2.Controllers
 
         public async Task<IActionResult> Delete(int id)
         {
-            var model = await _course.GetById(id);
+            var model = await _dpribadi.GetById(id);
             return View(model);
         }
 
@@ -99,7 +99,7 @@ namespace TMinggu2.Controllers
         {
             try
             {
-                await _course.Delete(id);
+                await _dpribadi.Delete(id);
                 TempData["pesan"] = $"<div class='alert alert-success alert-dismissible fade show'><button type='button' class='btn-close' data-bs-dismiss='alert'></button> Berhasil mendelete data student id: {id}</div>";
                 return RedirectToAction("Index");
             }

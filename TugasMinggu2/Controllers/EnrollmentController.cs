@@ -29,6 +29,19 @@ namespace TugasMinggu2.Controllers
             return enrollmentDTOs;
         }
 
+        [HttpGet("{id}")]
+        public async Task<EnrollmentDTO> Get(int id)
+        {
+            /*SamuraiReadDTO samuraiDTO = new SamuraiReadDTO();
+            samuraiDTO.Id = result.Id;
+            samuraiDTO.Name = result.Name;*/
+            var result = await _enrollmentDAL.GetById(id);
+            if (result == null) throw new Exception($"data {id} tidak ditemukan");
+            var samuraiDTO = _mapper.Map<EnrollmentDTO>(result);
+
+            return samuraiDTO;
+        }
+
         [HttpPost]
         public async Task<ActionResult> Post(EnrollmentCreateDTO enrollmentCreateDTO)
         {
@@ -43,6 +56,36 @@ namespace TugasMinggu2.Controllers
             {
 
                 return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        public async Task<ActionResult> Delete(int id)
+        {
+            try
+            {
+                await _enrollmentDAL.Delete(id);
+                return Ok("Data Berhasil di Hapus");
+            }
+            catch (Exception ex)
+            {
+
+                throw new Exception(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        public async Task<ActionResult> Put(EnrollmentDTO courseDTO)
+        {
+            try
+            {
+                var updateUser = _mapper.Map<Enrollment>(courseDTO);
+                var result = await _enrollmentDAL.Update(updateUser);
+                return Ok(updateUser);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
             }
         }
     }

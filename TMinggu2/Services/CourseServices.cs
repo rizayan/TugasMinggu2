@@ -19,15 +19,24 @@ namespace TMinggu2.Services
         }
 
         
-            public async Task<IEnumerable<Course>> GetAll()
+            public async Task<IEnumerable<Course>> GetAll(string token)
             {
                 List<Course> samurais = new List<Course>();
                 using (var httpClient = new HttpClient())
                 {
-                    using (var response = await httpClient.GetAsync("https://localhost:7172/api/Course"))
+                httpClient.DefaultRequestHeaders.TryAddWithoutValidation("Authorization", $"{token}");
+                using (var response = await httpClient.GetAsync("https://localhost:7172/api/Course"))
+                    {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
                     {
                         string apiResponse = await response.Content.ReadAsStringAsync();
                         samurais = JsonConvert.DeserializeObject<List<Course>>(apiResponse);
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    {
+                        throw new Exception("Gagal retrieve data");
+                    }
+                       
                     }
                 }
                 return samurais;

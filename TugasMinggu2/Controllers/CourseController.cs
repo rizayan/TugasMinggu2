@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TugasMinggu2.DAL;
@@ -20,6 +21,7 @@ namespace TugasMinggu2.Controllers
             _mapper = mapper;
         }
 
+        
         [HttpGet]
         public async Task<IEnumerable<CourseDTO>> Get()
         {

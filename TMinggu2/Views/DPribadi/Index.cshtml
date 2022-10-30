@@ -1,0 +1,86 @@
+﻿@model IEnumerable<TMinggu2.Models.DPribadi>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Aplikasi Data Pribadi</h1>
+<p>
+                <form asp-action="Index" method="get"> 
+                    <div style="background-color:salmon; padding-bottom: 10px; padding-top:10px;padding-left:10px">
+                    Masukan Nama: <br>
+                    <input name="name" type="text" placeholder="masukan nama" /> <br>
+                    </div>
+                    <input type="submit" value="Submit"  class="btn btn-primary" style="float: right; margin-left:10px; margin-top:10px; margin-bottom: 10px" /> 
+                    <a class="btn btn-primary" asp-action="Create" style="float:right; margin-top:10px;margin-bottom: 10px">Create</a>
+                </form>
+            </p>
+<p>
+   
+    @*<a asp-action="Create">Create New</a>*@
+</p>
+<table id="example" class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Id)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NIK)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NamaLengkap)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.JenisKelamin)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TanggalLahir)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Alamat)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Negara)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Id)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NIK)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NamaLengkap)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.JenisKelamin)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TanggalLahir)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Alamat)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Negara)
+            </td>
+            <td>
+                <a class="btn btn-warning btn-sm" asp-action="Update" asp-route-id="@item.Id">Update</a>
+                <a class="btn btn-primary btn-sm" asp-action="Details" asp-route-id="@item.Id">details</a>
+                <a class="btn btn-danger btn-sm" asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+<script>
+	$(document).ready(function () {
+    $('#example').DataTable();
+});
+</script>

@@ -4,7 +4,7 @@ namespace TMinggu2.Services
 {
     public interface ICourse
     {
-        Task<IEnumerable<Course>> GetAll();
+        Task<IEnumerable<Course>> GetAll(string token);
         Task<Course> GetById(int id);
         Task<Course> Insert(Course obj);
         Task<Course> Update(Course obj);
